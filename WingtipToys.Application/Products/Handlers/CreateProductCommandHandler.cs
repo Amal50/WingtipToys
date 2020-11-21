@@ -1,7 +1,5 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AutoMapper;
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using WingtipToys.Application.Interfaces;
@@ -13,21 +11,16 @@ namespace WingtipToys.Application.Products.Handlers
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
     {
         private readonly IApplicationDbContext _context;
-        public CreateProductCommandHandler(IApplicationDbContext context)
+        private readonly IMapper _mapper;
+        public CreateProductCommandHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var entity = new Product
-            {
-                ProductName = request.ProductName,
-                Description = request.Description,
-                ImagePath = request.ImagePath,
-                UnitPrice = request.UnitPrice,
-                CategoryID = request.CategoryID
-            };
+            var entity = _mapper.Map<Product>(request);
             _context.Products.Add(entity);
             await _context.SaveChangesAsync(cancellationToken);
             return entity.ProductID;

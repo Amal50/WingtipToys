@@ -14,10 +14,10 @@ namespace WingtipToys.Api.Controllers
         {
             return await Mediator.Send(command);
         }
-        [HttpGet("{id}")]
-        public async Task<IList<GetProductDto>> GetProductsByCategotyId(int id)
+        [HttpGet("{categoryId}")]
+        public async Task<IList<GetProductDto>> GetProductsByCategotyId(int categoryId)
         {
-            return await Mediator.Send(new GetProductsByCategotyIdQuery { CategoryID =  id});
+            return await Mediator.Send(new GetProductsByCategotyIdQuery { CategoryID = categoryId });
         }
     }
 }

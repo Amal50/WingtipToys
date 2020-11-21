@@ -1,0 +1,81 @@
+﻿@model HomeIndexViewModel
+@{
+    ViewData["Title"] = "Home Page";
+
+}
+
+<div class="content-wrapper">
+    <div class="text-left">
+        <p class="site-title">
+            <a href="/" id="A2">
+                <img id="Logo"
+                     src="~/images/logo.jpg" style="border-style: None;">
+            </a>
+        </p>
+    </div>
+</div>
+
+
+
+
+<section class="featured">
+    <div class="content-wrapper">
+        <hgroup class="title">
+            <h1>Products</h1>
+        </hgroup>
+
+
+        <form asp-action="Search" method="get">
+            <div class="form-actions no-color">
+                <p>
+                    <input class="form-group" type="text" placeholder="Search a product" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                    <input class="form-group" type="submit" value="Search" /> |
+                    <a asp-action="Index">Back to Full List</a>
+                </p>
+            </div>
+        </form>
+
+        <section class="featured">
+            <div style="margin-left: 2em">
+                <table>
+                    <tr>
+                        <td style="width: 30%;vertical-align:top;">
+                            <hgroup class="title">
+                                <h1>Wingtip Toys</h1>
+                                <h2>Wingtip Toys can help you find the perfect gift</h2>
+                            </hgroup>
+                            <p>
+                                We're all about transportation toys. You can order
+                                any of our toys today. Each toy listing has detailed
+                                information to help you choose the right toy.
+                            </p>
+                        </td>
+                        <td>
+                            <table>
+                                @foreach (var item in Model.ProductsList)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img border="1" height="75" src="~/images/@item.ImagePath" width="100">
+                                        </td>
+                                        <td>
+                                            <input type="hidden" asp-for="@item.ProductID" />
+                                            @item.ProductName
+                                            <br>
+                                            <span class="ProductPrice">
+                                                <strong>Price:</strong>
+                                                @item.UnitPrice
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </section>
+    </div>
+</section>
+

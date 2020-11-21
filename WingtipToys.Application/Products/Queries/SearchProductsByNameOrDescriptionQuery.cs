@@ -4,8 +4,8 @@ using WingtipToys.Application.Products.Dtos;
 
 namespace WingtipToys.Application.Products.Queries
 {
-    public class GetProductsByCategotyIdQuery : IRequest<IList<GetProductDto>>
+    public class SearchProductsByNameOrDescriptionQuery : IRequest<IList<GetProductDto>>
     {
-        public int CategoryID { get; set; }
+        public string SearchText { get; set; }
     }
 }

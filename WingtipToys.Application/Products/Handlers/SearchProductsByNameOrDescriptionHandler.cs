@@ -12,21 +12,22 @@ using WingtipToys.Domain.Entities;
 
 namespace WingtipToys.Application.Products.Handlers
 {
-    public class GetProductsByCategotyIdHandler : IRequestHandler<GetProductsByCategotyIdQuery, IList<GetProductDto>>
+    public class SearchProductsByNameOrDescriptionHandler : IRequestHandler<SearchProductsByNameOrDescriptionQuery, IList<GetProductDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
-        public GetProductsByCategotyIdHandler(IApplicationDbContext context, IMapper mapper)
+        public SearchProductsByNameOrDescriptionHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-        public async Task<IList<GetProductDto>> Handle(GetProductsByCategotyIdQuery request, CancellationToken cancellationToken)
+        public async Task<IList<GetProductDto>> Handle(SearchProductsByNameOrDescriptionQuery request, CancellationToken cancellationToken)
         {
             var result = new List<GetProductDto>();
-            List<Product> products = await _context.Products.Include(c => c.CartItems)
-                                .Where(c => c.CategoryID == request.CategoryID).ToListAsync();
-            if(products != null)
+            List<Product> products = await _context.Products
+                .Where(c => c.ProductName.ToLower().Contains(request.SearchText.ToLower()) || 
+                c.Description.ToLower().Contains(request.SearchText.ToLower())).ToListAsync();
+            if (products != null)
             {
                 result = _mapper.Map<List<GetProductDto>>(products);
             }

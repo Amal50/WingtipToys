@@ -12,7 +12,7 @@ using WingtipToys.Domain.Entities;
 
 namespace WingtipToys.Application.Products.Handlers
 {
-    public class SearchProductsByNameOrDescriptionHandler : IRequestHandler<SearchProductsByNameOrDescriptionQuery, IList<GetProductDto>>
+    public class SearchProductsByNameOrDescriptionHandler : IRequestHandler<SearchCarProductsByNameOrDescriptionQuery, IList<GetProductDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -21,12 +21,14 @@ namespace WingtipToys.Application.Products.Handlers
             _context = context;
             _mapper = mapper;
         }
-        public async Task<IList<GetProductDto>> Handle(SearchProductsByNameOrDescriptionQuery request, CancellationToken cancellationToken)
+        public async Task<IList<GetProductDto>> Handle(SearchCarProductsByNameOrDescriptionQuery request, CancellationToken cancellationToken)
         {
             var result = new List<GetProductDto>();
             List<Product> products = await _context.Products
-                .Where(c => c.ProductName.ToLower().Contains(request.SearchText.ToLower()) || 
-                c.Description.ToLower().Contains(request.SearchText.ToLower())).ToListAsync();
+                .Where(c=>c.CategoryID == 1 &&
+                (c.ProductName.ToLower().Contains(request.SearchText.ToLower()) ||
+                c.Description.ToLower().Contains(request.SearchText.ToLower()))
+                ).ToListAsync();
             if (products != null)
             {
                 result = _mapper.Map<List<GetProductDto>>(products);

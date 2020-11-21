@@ -10,5 +10,6 @@ namespace WingtipToys.Web.Mvc.Models
             ProductsList = new List<GetProductDto>();
         }
         public IList<GetProductDto> ProductsList { get; set; }
+        public string SearchText { get; set; }
     }
 }

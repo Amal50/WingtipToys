@@ -27,11 +27,10 @@
 
         <form asp-action="Search" method="get">
             <div class="form-actions no-color">
-                <p>
-                    <input class="form-group" type="text" placeholder="Search a product" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                    <input class="form-group" type="text" placeholder="Search a product" asp-for="SearchText" />
                     <input class="form-group" type="submit" value="Search" /> |
                     <a asp-action="Index">Back to Full List</a>
-                </p>
+                <div><span asp-validation-for="SearchText" class="text-danger"></span></div>
             </div>
         </form>
 

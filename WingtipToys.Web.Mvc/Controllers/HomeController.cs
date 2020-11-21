@@ -18,6 +18,7 @@ namespace WingtipToys.Web.Mvc.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var productsList = await Mediator.Send(new GetProductsByCategotyIdQuery { CategoryID = 1 });
@@ -28,33 +29,19 @@ namespace WingtipToys.Web.Mvc.Controllers
 
             return View(vm);
         }
-        public async Task<IActionResult> Search(string searchString)
+
+        public async Task<IActionResult> Search(HomeIndexViewModel viewModel)
         {
-            var productsList = await Mediator.Send(new SearchProductsByNameOrDescriptionQuery { SearchText = searchString });
-            var vm = new HomeIndexViewModel
+            if(!ModelState.IsValid)
             {
-                ProductsList = productsList
-            };
+                viewModel.ProductsList = await Mediator.Send(new GetProductsByCategotyIdQuery { CategoryID = 1 });
 
-            return View("Index" , vm);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(string searchText)
-        {
-            var productsList = await Mediator.Send(new SearchProductsByNameOrDescriptionQuery { SearchText = searchText });
-            var vm = new HomeIndexViewModel
-            {
-                ProductsList = productsList
-            };
-
-            return View(vm);
+                return View("index", viewModel);
+            }
+            viewModel.ProductsList = await Mediator.Send(new SearchCarProductsByNameOrDescriptionQuery { SearchText = viewModel.SearchText });
+            return View("index", viewModel);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

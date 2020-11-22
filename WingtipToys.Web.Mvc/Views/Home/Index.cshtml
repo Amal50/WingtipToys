@@ -15,23 +15,18 @@
     </div>
 </div>
 
-
-
-
 <section class="featured">
     <div class="content-wrapper">
         <hgroup class="title">
             <h1>Products</h1>
         </hgroup>
-
-
-        <form asp-action="Search" method="get">
-            <div class="form-actions no-color">
-                    <input class="form-group" type="text" placeholder="Search a product" asp-for="SearchText" />
-                    <input class="form-group" type="submit" value="Search" /> |
-                    <a asp-action="Index">Back to Full List</a>
-                <div><span asp-validation-for="SearchText" class="text-danger"></span></div>
+        <form asp-action="Search" method="get" class="form-inline">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Search a product" asp-for="SearchText" />
+                <button class="btn btn-primary ml-2 mr-2" type="submit">Search</button>
+                | <a class="ml-2" asp-action="Index">Back to Full List</a>
             </div>
+            <span asp-validation-for="SearchText" class="text-danger ml-2"></span>
         </form>
 
         <section class="featured">
@@ -55,7 +50,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            <img border="1" height="75" src="~/images/@item.ImagePath" width="100">
+                                            <img height="75" src="~/images/@item.ImagePath" width="100">
                                         </td>
                                         <td>
                                             <input type="hidden" asp-for="@item.ProductID" />
@@ -72,7 +67,6 @@
                         </td>
                     </tr>
                 </table>
-
             </div>
         </section>
     </div>

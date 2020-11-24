@@ -9,8 +9,9 @@ namespace WingtipToys.Api.Controllers
 {
     public class ProductsController : BaseApiController
     {
+        [Route("Create")]
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateProductCommand command)
+        public async Task<ActionResult<int>> Create([FromBody] CreateProductCommand command)
         {
             return await Mediator.Send(command);
         }
@@ -18,6 +19,12 @@ namespace WingtipToys.Api.Controllers
         public async Task<IList<GetProductDto>> GetProductsByCategotyId(int categoryId)
         {
             return await Mediator.Send(new GetProductsByCategotyIdQuery { CategoryID = categoryId });
+        }
+        [Route("GetAllProducts")]
+        [HttpGet]
+        public async Task<IList<GetProductDto>> GetAllProducts()
+        {
+            return await Mediator.Send(new GetProductsQuery());
         }
     }
 }

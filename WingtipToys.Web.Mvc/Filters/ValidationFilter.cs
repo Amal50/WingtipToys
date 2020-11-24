@@ -33,7 +33,6 @@ namespace WingtipToys.Web.Mvc.Filters
                     }
                 }
 
-                //  context.Result = new BadRequestObjectResult(errorResponse);
                 var controller = context.Controller as Controller;
                 context.Result = controller.View();
                 return;

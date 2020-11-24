@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using WingtipToys.Application.Products.Commands;
 using WingtipToys.Application.Products.Dtos;
 using WingtipToys.Domain.Entities;

@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using FluentValidation;
 using FluentValidation.TestHelper;
 using WingtipToys.Application.Products.Validators;
 using WingtipToys.Application.Products.Queries;
@@ -36,5 +35,17 @@ namespace WingtipToys.Application.UnitTests
             var result = validator.TestValidate(model);
             result.ShouldHaveValidationErrorFor(query => query.SearchText);
         }
+        //I can put them all in one test
+        [Test]
+        [TestCase("a")]
+        [TestCase(" ")]
+        [TestCase(null)]
+        public void Should_have_error_when_SearchText_is_LengthLessThan2_Or_Null_Or_WhiteSpace(string value)
+        {
+            var model = new SearchCarProductsByNameOrDescriptionQuery { SearchText = value };
+            var result = validator.TestValidate(model);
+            result.ShouldHaveValidationErrorFor(query => query.SearchText);
+        }
+
     }
 }
